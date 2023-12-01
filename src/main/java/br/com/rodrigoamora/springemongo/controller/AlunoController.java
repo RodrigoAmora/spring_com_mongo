@@ -1,19 +1,14 @@
 package br.com.rodrigoamora.springemongo.controller;
 
-import java.util.List;
-
+import br.com.rodrigoamora.springemongo.model.Aluno;
+import br.com.rodrigoamora.springemongo.repository.AlunoRepository;
+import br.com.rodrigoamora.springemongo.service.GeolocalizacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import br.com.alura.escolalura.service.GeolocalizacaoService;
-import br.com.rodrigoamora.springemongo.model.Aluno;
-import br.com.rodrigoamora.springemongo.repository.AlunoRepository;
+import java.util.List;
 
 @Controller
 public class AlunoController {
@@ -34,9 +29,9 @@ public class AlunoController {
 	public String salvar(@ModelAttribute Aluno aluno){
 		System.out.println("Aluno para salvar: " + aluno);
 		try {
-			List<Double> latElong = geolocalizacaoService.obterLatELongPor(aluno.getContato());
+			List<Double> latElong = this.geolocalizacaoService.obterLatELongPor(aluno.getContato());
 			aluno.getContato().setCoordinates(latElong);
-			repository.salvar(aluno);
+			this.repository.salvar(aluno);
 		} catch (Exception e) {
 			System.out.println("Endereco nao localizado");
 			e.printStackTrace();
@@ -47,18 +42,15 @@ public class AlunoController {
 	
 	@GetMapping("/aluno/listar")
 	public String listar(Model model){
-		List<Aluno> alunos = repository.obterTodosAlunos();
+		List<Aluno> alunos = this.repository.obterTodosAlunos();
 		model.addAttribute("alunos", alunos);
 		return "aluno/listar";
 	}
 	
 	@GetMapping("/aluno/visualizar/{id}")
 	public String visualizar(@PathVariable String id, Model model){
-		
-		Aluno aluno = repository.obterAlunoPor(id);
-		
+		Aluno aluno = this.repository.obterAlunoPor(id);
 		model.addAttribute("aluno", aluno);
-		
 		return "aluno/visualizar";
 	}
 	
@@ -69,11 +61,8 @@ public class AlunoController {
 	
 	@GetMapping("/aluno/pesquisar")
 	public String pesquisar(@RequestParam("nome") String nome, Model model){
-		List<Aluno> alunos = repository.pesquisarPor(nome);
-		
+		List<Aluno> alunos = this.repository.pesquisarPor(nome);
 		model.addAttribute("alunos", alunos);
-		
-		
 		return "aluno/pesquisarnome"; 
 	}
 
