@@ -1,8 +1,13 @@
 package br.com.rodrigoamora.springemongo.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import br.com.rodrigoamora.springemongo.codecs.AlunoCodec;
+import br.com.rodrigoamora.springemongo.model.Aluno;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.geojson.Point;
+import com.mongodb.client.model.geojson.Position;
 import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -10,18 +15,8 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.geojson.Point;
-import com.mongodb.client.model.geojson.Position;
-
-import br.com.rodrigoamora.springemongo.codecs.AlunoCodec;
-import br.com.rodrigoamora.springemongo.model.Aluno;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class AlunoRepository {
@@ -30,16 +25,17 @@ public class AlunoRepository {
 	private MongoDatabase bancaDeDados;
 	
 	private void criarConexao() {
-		Codec<Document> codec = MongoClient.getDefaultCodecRegistry().get(Document.class);
+		Codec<Document> codec = MongoClientSettings.getDefaultCodecRegistry().get(Document.class);
 		
 		AlunoCodec alunoCodec = new AlunoCodec(codec);
-		
-		CodecRegistry registro = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(),
-				CodecRegistries.fromCodecs(alunoCodec));
-		
-		MongoClientOptions opcoes = MongoClientOptions.builder().codecRegistry(registro).build();
-		
-		this.cliente = new MongoClient("localhost:27017", opcoes);
+
+		CodecRegistry registro = CodecRegistries.fromRegistries(CodecRegistries.fromCodecs(alunoCodec),
+																MongoClientSettings.getDefaultCodecRegistry());
+
+		MongoClientSettings opcoes = MongoClientSettings.builder()
+				.codecRegistry(registro).build();
+
+		this.cliente = MongoClients.create(opcoes);
 		this.bancaDeDados = cliente.getDatabase("test");
 	}
 	
