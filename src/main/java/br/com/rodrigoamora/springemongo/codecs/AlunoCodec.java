@@ -1,25 +1,16 @@
 package br.com.rodrigoamora.springemongo.codecs;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.bson.BsonReader;
-import org.bson.BsonString;
-import org.bson.BsonValue;
-import org.bson.BsonWriter;
-import org.bson.Document;
+import br.com.rodrigoamora.springemongo.model.*;
+import org.bson.*;
 import org.bson.codecs.Codec;
 import org.bson.codecs.CollectibleCodec;
 import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
 import org.bson.types.ObjectId;
 
-import br.com.rodrigoamora.springemongo.model.Aluno;
-import br.com.rodrigoamora.springemongo.model.Contato;
-import br.com.rodrigoamora.springemongo.model.Curso;
-import br.com.rodrigoamora.springemongo.model.Habilidade;
-import br.com.rodrigoamora.springemongo.model.Nota;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class AlunoCodec implements CollectibleCodec<Aluno> {
 	
