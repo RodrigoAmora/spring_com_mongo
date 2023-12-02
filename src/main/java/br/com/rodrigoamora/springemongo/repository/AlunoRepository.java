@@ -26,9 +26,7 @@ public class AlunoRepository {
 	
 	private void criarConexao() {
 		Codec<Document> codec = MongoClientSettings.getDefaultCodecRegistry().get(Document.class);
-		
 		AlunoCodec alunoCodec = new AlunoCodec(codec);
-
 		CodecRegistry registro = CodecRegistries.fromRegistries(CodecRegistries.fromCodecs(alunoCodec),
 																MongoClientSettings.getDefaultCodecRegistry());
 
@@ -40,9 +38,9 @@ public class AlunoRepository {
 	}
 	
 	public void salvar(Aluno aluno) {
-		
 		criarConexao();
 		MongoCollection<Aluno> alunos = this.bancaDeDados.getCollection("alunos", Aluno.class);
+
 		if (aluno.getId() == null) {
 			alunos.insertOne(aluno);
 		} else {
@@ -69,15 +67,19 @@ public class AlunoRepository {
 	
 	public Aluno obterAlunoPor(String id) {
 		criarConexao();
+
 		MongoCollection<Aluno> alunos = this.bancaDeDados.getCollection("alunos", Aluno.class);
 		Aluno aluno = alunos.find(Filters.eq("_id", new ObjectId(id))).first();
-		
+
+		fecharConexao();
+
 		return aluno;
 		
 	}
 
 	public List<Aluno> pesquisarPor(String nome) {
 		criarConexao();
+
 		MongoCollection<Aluno> alunoCollection = this.bancaDeDados.getCollection("alunos" , Aluno.class);
 		MongoCursor<Aluno> resultados = alunoCollection.find(Filters.eq("nome", nome), Aluno.class).iterator();
 		List<Aluno> alunos = popularAlunos(resultados);
@@ -134,6 +136,7 @@ public class AlunoRepository {
 		List<Aluno> alunos = popularAlunos(resultados);
 		
 		fecharConexao();
+
 		return alunos;
 	}
 
