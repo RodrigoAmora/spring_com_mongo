@@ -1,10 +1,10 @@
 package br.com.rodrigoamora.springemongo.model;
 
-import org.bson.types.ObjectId;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.bson.types.ObjectId;
 
 public class Aluno {
 	

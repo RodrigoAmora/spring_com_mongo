@@ -1,6 +1,13 @@
 package br.com.rodrigoamora.springemongo.service;
 
-import br.com.rodrigoamora.springemongo.model.Contato;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.GeocodingApiRequest;
@@ -8,13 +15,8 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.Geometry;
 import com.google.maps.model.LatLng;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import br.com.rodrigoamora.springemongo.model.Contato;
 
 @Service
 public class GeolocalizacaoService {
