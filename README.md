@@ -10,5 +10,3 @@ O projeto usa o Java 17 e as seguintes dependências:
 * Google Maps
 * DevTools
 * Thymeleaf
-
-<hr>
