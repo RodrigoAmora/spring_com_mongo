@@ -10,3 +10,9 @@ O projeto usa o Java 17 e as seguintes dependências:
 * Google Maps
 * DevTools
 * Thymeleaf
+
+Rodando o Projeto:
+------------------
+Para rodar cada projeto localmente, execute o comando no diretório raiz projeto:
+```shell script
+mvn spring-boot:run
